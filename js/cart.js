@@ -66,23 +66,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const row = document.createElement("tr");
             row.innerHTML = `
-                <td>
+                <td data-label="商品">
                     <a href="product.html?id=${item.id}" class="cart-product-link">
                         <img src="${item.image}" alt="${item.name}" class="cart-product-img" />
                         ${item.name}
                     </a>
                 </td>
-                <td>$${item.price}</td>
-                <td>
+                <td data-label="單價">$${item.price}</td>
+                <td data-label="數量">
                     <select data-id="${item.id}">
                         ${Array.from({ length: 10 }, (_, i) =>
                             `<option value="${i + 1}" ${item.qty === i + 1 ? "selected" : ""}>${i + 1}</option>`
                         ).join("")}
                     </select>
                 </td>
-                <td>$${subtotal}</td>
-                <td><button data-id="${item.id}" class="delete-btn">刪除</button></td>
+                <td data-label="小計">$${subtotal}</td>
+                <td data-label="操作"><button data-id="${item.id}" class="delete-btn">刪除</button></td>
             `;
+
             cartTableBody.appendChild(row);
         });
 
