@@ -19,19 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function updateCartUI() {
-    let cart = getCart() || [];
+        const cart = getCart() || [];
+        console.log("目前購物車內容:", cart);
 
-    // ✅ 過濾掉 localStorage 中已經不在資料庫的商品
-    const validProductIds = allProductsData.map(p => p.id); // 或 fakeData
-    const originalLength = cart.length;
-    cart = cart.filter(item => validProductIds.includes(item.id));
-    if (cart.length !== originalLength) {
-        saveCart(cart); // 移除無效商品
-    }
-
-    console.log("目前購物車內容（過濾後）:", cart);
-
-    cartTableBody.innerHTML = ""; // 清空表格內容
+        cartTableBody.innerHTML = ""; // 清空表格內容
 
         if (cart.length === 0) {
             // 購物車為空：顯示提示訊息，隱藏表格、總金額和結帳按鈕
