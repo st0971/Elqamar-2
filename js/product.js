@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const productToAdd = { ...product, qty };  // 複製一份產品並加入 qty
     addToCart(productToAdd);
     updateCartBadge();
-    alert("已加入購物車！");
+    showToast("已加入購物車！");
   });
 
 
