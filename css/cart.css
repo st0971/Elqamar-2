@@ -165,6 +165,15 @@ a {
     border-radius: 4px;
     flex-shrink: 0; /* 防止圖片被壓縮 */
 }
+.cart-table {
+  overflow-x: auto; /* 支援橫向滑動 */
+  display: block;
+  width: 100%;
+}
+.cart-table table {
+  min-width: 600px; /* 確保手機上不會太小 */
+}
+
 
 /* 數量下拉選單 */
 #cart-table select {

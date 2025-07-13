@@ -105,73 +105,6 @@ a {
   font-weight: bold;
 }
 
-/* 輪播區 */
-.carousel {
-  margin: 0;
-  padding: 0;
-  display: block;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.carousel img {
-  width: 100%;
-  display: none;
-}
-
-.carousel img:first-child {
-  display: block;
-}
-.carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(255, 255, 255, 0.6);
-  border: none;
-  font-size: 24px;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 2;
-  color: #542d13;
-}
-
-.carousel-btn.prev {
-  left: 10px;
-}
-
-.carousel-btn.next {
-  right: 10px;
-}
-
-
-.carousel-image.active {
-  display: block;
-}
-
-.carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(255, 255, 255, 0.6);
-  border: none;
-  font-size: 24px;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 2;
-  color: #542d13;
-}
-
-.carousel-btn.prev {
-  left: 10px;
-}
-
-.carousel-btn.next {
-  right: 10px;
-}
-
-
-
 
 /* 商品列表 */
 .product-list {
@@ -309,6 +242,7 @@ a {
 #cart-badge.hidden {
   display: none;
 }
+
 .mobile-header {
   position: fixed;  /* 固定在頂端 */
   top: 0;

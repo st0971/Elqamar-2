@@ -117,7 +117,10 @@ a {
 
 .carousel img {
   width: 100%;
-  display: none;
+  height: auto; /* 確保等比縮放 */
+  object-fit: cover; /* 如果你希望圖片填滿但不變形 */
+  display: block;
+  margin: 0 auto;
 }
 
 .carousel img:first-child {
@@ -309,6 +312,7 @@ a {
 #cart-badge.hidden {
   display: none;
 }
+
 .mobile-header {
   position: fixed;  /* 固定在頂端 */
   top: 0;
@@ -374,6 +378,9 @@ main, .product-list {
     .product-card {
         flex: 0 0 calc(50% - 20px); /* 兩兩一排 */
     }
+    .carousel-container {
+    padding-top: 1rem; /* 給點空間避免圖片緊貼上緣 */
+  }
 }
 
 @media (max-width: 480px) {
