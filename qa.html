@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="css/qa.css" />
+  <title>Elqamar—常見問題</title>
+</head>
+<body>
+  <header class="mobile-header">
+    <div class="left-group">
+      <button id="hamburger">☰</button>
+      <a href="index.html" class="logo">Elqamar</a>
+    </div>
+    <div class="section">
+        <div class="right-group">
+            <a href="cart.html" id="cart-link">
+            <img src="images/cart.png" alt="購物車" />
+            <span id="cart-badge" class="hidden">0</span>
+            </a>
+            <a href="https://www.instagram.com/elqamar.ovo/"><img src="images/ig.png" alt="IG" /></a>
+            <a href="https://www.facebook.com/profile.php?id=61577311714295"><img src="images/fb.png" alt="FB" /></a>
+        </div>
+    </div>
+  </header>
+  <nav id="side-menu" class="hidden">
+    <ul>
+      <li><a href="index.html">首頁</a></li>
+      <li>
+        <details>
+          <summary>預購商品</summary>
+          <ul>
+            <li><a href="idv.html">第五人格</a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+          </ul>
+        </details>
+      </li>
+      <li><a href="spot.html">現貨商品</a></li>
+      <li><a href="notice.html">交易須知</a></li>
+      <li><a href="qa.html">Q&A</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <h1>常見問題</h1>
+    
+    <section class="faq">
+      <details>
+        <summary>Q1. 如何下單？</summary>
+        <p>本網站僅提供商品本體價格的查詢與試算功能，實際購買請透過右上角的社群軟體與我們聯繫確認。</p>
+      </details>
+      <details>
+        <summary>Q2. 付款方式有哪些？</summary>
+        <p>我們目前支援銀行轉帳、空包、以及超商代碼繳費等，現貨可直接私訊連結下單。詳情請見交易須知頁面。</p>
+      </details>
+      <details>
+        <summary>Q3. 出貨時間需要多久？</summary>
+        <p>1️⃣預購商品的出貨時間依據供應商到貨時間而定<br>2️⃣現貨商品確認訂單後會安排寄出：<br>「好賣家」寄送：當天可出貨。<br>「賣貨便或郵局」寄送：一週內出貨。</p>
+      </details>
+      <details>
+        <summary>Q4. 可以修改或取消訂單嗎？</summary>
+        <p>預購商品及限時開團收款後就不可取消，現貨商品還沒出貨前告知即可取消。</p>
+      </details>
+      <!-- 可自行新增更多 FAQ -->
+    </section>
+
+    <div class="contact-methods">
+        <h2>聯絡我們</h2>
+            <p>如果您在常見問題中找不到答案，或有其他任何疑問，歡迎透過以下方式聯繫我們，我們會盡快回覆您。</p>
+                <p><strong>LINE社群：</strong></p>
+                <div class="social-links">
+                    <a href="https://line.me/ti/g2/qLAM1oBz8dpxeKXxPokjT1Xn9q96j0ghlNfODg?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" class="icon-link">
+                        <img src="images/line.png" alt="LINE"> Elqamar
+                    </a>
+                </div>
+                <p><strong>社群媒體：</strong></p>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/elqamar.ovo/" class="icon-link">
+                        <img src="images/instagram.png" alt="Instagram"> Elqamar.ovo
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61577311714295" class="icon-link">
+                        <img src="images/facebook.png" alt="Facebook"> Elqamar
+                    </a>
+                </div>
+            </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>© Elqamar ｜聯絡我們</p>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/elqamar.ovo/"><img src="images/ig.png" alt="IG" /></a>
+      <a href="https://www.facebook.com/profile.php?id=61577311714295"><img src="images/fb.png" alt="FB" /></a>
+    </div>
+  </footer>
+<script>
+  // 讓風琴 FAQ 同時間只展開一個
+  document.querySelectorAll('.faq details').forEach((targetDetail) => {
+    targetDetail.addEventListener('toggle', () => {
+      if (targetDetail.open) {
+        document.querySelectorAll('.faq details').forEach((detail) => {
+          if (detail !== targetDetail) detail.removeAttribute('open');
+        });
+      }
+    });
+  });
+</script>
+
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/notice.js"></script>
+</body>
+</html>
