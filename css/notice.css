@@ -1,0 +1,305 @@
+/* 全域設定 */
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #542D13;
+  background-color: #fff;
+}
+
+    a {
+      text-decoration: none;
+      color: #542D13;
+    }
+
+    h1, h2, h3 {
+      text-align: center;
+      color: #542D13;
+    }
+    section {
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px 40px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+    /* 購買流程 */
+    #purchase-process ol {
+      padding-left: 20px;
+      line-height: 1.6;
+      font-size: 1.1rem;
+    }
+
+    /* 左右文字框容器 */
+    .two-columns {
+      display: flex;
+      gap: 40px;
+      margin-top: 20px;
+    }
+    /* 左右文字框共用樣式 */
+    .column-box {
+      background: #fff7dc;
+      border: 2px solid #f9d471;
+      border-radius: 8px;
+      padding: 20px;
+      flex: 1;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #5a3c1a;
+      box-shadow: 1px 1px 4px rgba(0,0,0,0.05);
+    }
+
+    /* 手機版改成直列 */
+    @media screen and (max-width: 700px) {
+      .two-columns {
+        flex-direction: column;
+      }
+    }
+
+    /* --- 頁尾 --- */
+    .site-footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px 20px;
+      background-color: #7896AC;
+      color: #fff;
+      font-size: 0.9em;
+      flex-shrink: 0;
+      margin-top: auto;
+    }
+
+    .footer-social a {
+      margin-left: 15px;
+    }
+
+    .footer-social img {
+      width: 24px;
+      height: 24px;
+    }
+    /* 導覽列 */
+.mobile-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 50px;  /* 確保有固定高度 */
+  z-index: 9999;
+  background-color: #7896AC;
+  color: #542D13;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.mobile-header .logo {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.mobile-header button,
+.mobile-header a {
+  background: none;
+  border: none;
+  padding: 5px;
+}
+
+.mobile-header img {
+  width: 24px;
+  height: 24px;
+}
+.left-group, .right-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.right-group img {
+  width: 24px;
+  height: 24px;
+}
+
+
+/* 搜尋欄 */
+#search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background: #f9f9f9;
+  border-bottom: 1px solid #ccc;
+}
+
+#search-bar input {
+  width: 70%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+#search-bar button {
+  padding: 8px 12px;
+  background-color: #FEE985;
+  border: none;
+  border-radius: 4px;
+  color: #542D13;
+  font-weight: bold;
+}
+
+#search-bar.hidden {
+  display: none;
+}
+
+/* 側邊選單 */
+#side-menu {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #ccc;
+  z-index: 1000;
+  padding: 10px;
+}
+
+#side-menu.hidden {
+  display: none;
+}
+
+#side-menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+#side-menu li {
+  margin: 8px 0;
+}
+
+#side-menu summary {
+  cursor: pointer;
+  font-weight: bold;
+}
+#search-bar {
+  position: fixed;
+  top: 60px; /* 導覽列高度 */
+  left: 0;
+  right: 0;
+  background-color: #FEE985;
+  z-index: 9998;
+  display: flex;
+  padding: 10px;
+  gap: 8px;
+}
+
+
+#search-bar.hidden {
+  display: none;
+}
+
+#search-bar input {
+  flex: 1;
+  padding: 8px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#search-bar button {
+  background-color: #542D13;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+#cart-link {
+  position: relative;
+  display: inline-block;
+}
+
+#cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: red;
+  color: white;
+  font-size: 0.7em;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+#cart-badge.hidden {
+  display: none;
+}
+
+.mobile-header {
+  position: fixed;  /* 固定在頂端 */
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #7896AC;
+  color: #542D13;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  z-index: 9999;  /* 超高層級，確保在最上層 */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* 頁面內容避免被導覽蓋住，給上方足夠內距 */
+main, .product-list {
+  padding-top: 50px; /* ✅ 只推內容，不推輪播 */
+}
+
+
+/* 側邊選單也放置高層級，避免被其他內容遮擋 */
+#side-menu {
+  position: fixed;
+  top: 50px; /* 導覽列下方 */
+  left: 0;
+  width: 100%;
+  background: #fff;
+  z-index: 9998;
+  border-bottom: 1px solid #ccc;
+}
+#hamburger {
+  position: relative;
+  z-index: 10000;  /* 比 mobile-header 還高 */
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #542D13;
+}
+/* 橢圓方框 */
+#purchase-process ol {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  counter-reset: step-counter;
+}
+
+#purchase-process ol li {
+  flex: 1 1 calc(33.333% - 32px); /* 每列最多3個，含間距 */
+  max-width: 240px;
+  min-width: 180px;
+  padding: 12px 20px;
+  background-color: #7896AC;
+  border-radius: 10px; /* 橢圓形 */
+  font-size: 0.95rem;
+  color: #fff;
+  font-weight: 500;
+  position: relative;
+  box-shadow: 1px 1px 4px rgba(0,0,0,0.05);
+  text-align: center;
+  counter-increment: step-counter;
+}

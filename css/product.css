@@ -1,0 +1,178 @@
+/* 全域設定 */
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #542D13;
+  background-color: #fff;
+}
+
+a {
+  text-decoration: none;
+  color: #542D13;
+}
+
+/* 導覽列 */
+.mobile-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  z-index: 10000; /* 調成 10000 */
+  background-color: #7896AC;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.mobile-header .logo {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.left-group, .right-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mobile-header button,
+.mobile-header a {
+  background: none;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  color: #542D13;
+}
+
+.mobile-header img {
+  width: 24px;
+  height: 24px;
+}
+
+/* 漢堡按鈕特別調整 */
+#hamburger {
+  position: relative;
+  z-index: 20000; /* 高於 header 確保可點擊 */
+  font-size: 1.5em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #542D13;
+}
+
+/* 搜尋欄 */
+#search-bar {
+  position: fixed;
+  top: 50px; /* 導覽列高度 */
+  left: 0;
+  right: 0;
+  background-color: #FEE985;
+  z-index: 9998;
+  display: flex;
+  padding: 10px;
+  gap: 8px;
+}
+
+#search-bar.hidden {
+  display: none;
+}
+
+#search-bar input {
+  flex: 1;
+  padding: 8px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#search-bar button {
+  background-color: #542D13;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+/* 側邊選單 */
+#side-menu {
+  position: fixed;
+  top: 50px; /* 導覽列下方 */
+  left: 0;
+  width: 100%;
+  background: #fff;
+  z-index: 9998;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+}
+
+#side-menu.hidden {
+  display: none;
+}
+
+#side-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#side-menu li {
+  margin: 8px 0;
+}
+
+#side-menu summary {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* 商品詳情主區塊 */
+#product-detail {
+  position: relative;
+  z-index: auto;
+  padding: 60px 15px 15px; /* 頂部預留導覽列高度，避免遮擋 */
+}
+
+/* 購物車小紅點 */
+#cart-link {
+  position: relative;
+  display: inline-block;
+}
+
+#cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: red;
+  color: white;
+  font-size: 0.7em;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+#cart-badge.hidden {
+  display: none;
+}
+/* 頁尾 */
+.site-footer {
+  display: flex;
+  justify-content: center;  /* 左右兩端對齊 */
+  align-items: center;             /* 垂直置中 */
+  padding: 15px 20px;
+  background-color: #7896AC;
+  color: #fff;
+  font-size: 0.9em;
+}
+
+.footer-social a {
+  margin-left: 15px;
+}
+
+.footer-social img {
+  width: 24px;
+  height: 24px;
+}

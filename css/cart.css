@@ -1,0 +1,347 @@
+/* 全域設定 */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #542D13;
+    background-color: #fff;
+
+    /* Sticky Footer 核心設定：讓 body 成為 Flex 容器並填滿視窗 */
+    display: flex; /* 將 body 設定為 Flex 容器 */
+    flex-direction: column; /* 子元素垂直排列 */
+    min-height: 100vh; /* 確保 body 至少佔據整個視窗高度 */
+}
+
+a {
+    text-decoration: none;
+    color: #542D13;
+}
+
+/* --- 隱藏類別 --- */
+.hidden {
+    display: none !important; /* 確保任何時候都能強制隱藏 */
+}
+
+/* --- 導覽列 --- */
+.mobile-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px; /* 固定高度 */
+    z-index: 9999; /* 最高層級 */
+    background-color: #7896AC;
+    color: #542D13;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px; /* 這裡的 padding 會讓實際高度約為 70px (50px + 2*10px) */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.mobile-header .logo {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.mobile-header button,
+.mobile-header a {
+    background: none;
+    border: none;
+    padding: 5px;
+}
+
+.mobile-header img {
+    width: 24px;
+    height: 24px;
+}
+
+.left-group, .right-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* --- 側邊選單 --- */
+#side-menu {
+    position: fixed; /* 從 absolute 改為 fixed，確保它在滾動時仍保持位置 */
+    /* 修正 top 值：應為 mobile-header 的實際高度 */
+    top: 70px; /* mobile-header 高度 50px + 上下 padding 2*10px = 70px */
+    left: 0;
+    width: 100%;
+    background: #fff;
+    z-index: 9998; /* 略低於 header */
+    border-bottom: 1px solid #ccc;
+    padding: 10px; /* 添加 padding */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 讓它有浮動感 */
+}
+
+#side-menu.hidden {
+    display: none;
+}
+
+#side-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; /* 移除預設 margin */
+}
+
+#side-menu li {
+    margin: 8px 0;
+}
+
+#side-menu summary {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* --- 購物車頁面主要內容容器 --- */
+#cart-container { /* 這就是你的 main 元素 */
+    flex-grow: 1; /* Sticky Footer 核心：讓此容器佔據所有剩餘空間，將 footer 推到底部 */
+
+    /* 確保內容不會被 fixed 的 header 遮蓋 */
+    /* mobile-header 實際高度約 70px */
+    padding-top: 70px; /* 提供足夠的頂部內距 */
+
+    /* 限制內容最大寬度並置中 */
+    max-width: 1100px; /* 增大最大寬度，給表格更多空間 */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px; /* 左右邊距，保持內容不貼邊 */
+    padding-right: 15px; /* 左右邊距，保持內容不貼邊 */
+    padding-bottom: 20px; /* 底部內距，讓內容和頁尾之間有空間 */
+    box-sizing: border-box; /* 確保 padding 不會讓 max-width 失效 */
+}
+
+#cart-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px; /* 為 h2 添加頂部邊距 */
+    font-size: 1.8em; /* 增大標題字體 */
+}
+
+/* --- 購物車表格 (#cart-table) 的樣式調整：讓表格變大 --- */
+#cart-table {
+    width: 100%; /* 讓表格佔滿 #cart-container 的可用寬度 */
+    border-collapse: collapse; /* 讓邊框合併 */
+    margin-bottom: 25px; /* 增加表格下方空間 */
+    font-size: 1.1em; /* 增大表格整體字體大小 */
+}
+
+#cart-table th,
+#cart-table td {
+    border: 1px solid #ccc;
+    padding: 15px 10px; /* 顯著增大單元格內距，讓表格變大 */
+    text-align: center;
+    vertical-align: middle; /* 垂直置中內容 */
+}
+
+#cart-table th {
+    background-color: #7896AC;
+    color: #fff; /* 確保文字在深色背景下清晰 */
+    font-weight: bold;
+}
+
+/* 表格內商品連結和圖片樣式 */
+.cart-product-link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* 讓商品資訊在單元格內靠左對齊 */
+    gap: 12px; /* 增大圖片與文字的間距 */
+    color: #542D13;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: left; /* 確保文字靠左 */
+}
+
+.cart-product-link:hover {
+    text-decoration: underline;
+}
+
+.cart-product-img {
+    width: 80px; /* 顯著增大圖片尺寸 */
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0; /* 防止圖片被壓縮 */
+}
+
+/* 數量下拉選單 */
+#cart-table select {
+    padding: 8px 10px; /* 增大下拉選單內距 */
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 80px; /* 固定下拉選單寬度，使其更大 */
+    font-size: 1em;
+}
+
+/* 刪除按鈕 */
+#cart-table button {
+    background-color: #FEE985;
+    color: #542D13;
+    border: none;
+    padding: 10px 15px; /* 增大按鈕內距，使其更大 */
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap; /* 防止文字換行 */
+    font-size: 0.95em; /* 調整字體大小 */
+}
+
+#cart-table button:hover {
+    background-color: #fcd858;
+}
+
+/* 總金額 */
+#total-price {
+    font-weight: bold;
+    text-align: right;
+    margin-top: 30px; /* 增大頂部邊距 */
+    font-size: 1.4em; /* 顯著增大字體大小 */
+    padding-right: 10px; /* 與表格右側對齊 */
+}
+
+/* 結帳按鈕 */
+#checkout-btn {
+    display: block;
+    margin: 40px auto 0; /* 增大頂部和底部邊距 */
+    padding: 15px 30px; /* 增大按鈕尺寸 */
+    background-color: #FEE985;
+    color: #542D13;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.2em; /* 增大字體 */
+    letter-spacing: 1px; /* 增加字距 */
+}
+
+#checkout-btn:hover {
+    background-color: #fcd858;
+}
+
+/* 空購物車訊息 */
+#empty-cart-message {
+    text-align: center;
+    margin-top: 50px; /* 為空購物車訊息提供更多空間 */
+    padding: 30px;
+    border: 2px dashed #ccc; /* 邊框更粗 */
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    font-size: 1.1em;
+}
+#empty-cart-message p {
+    margin-bottom: 15px;
+}
+#empty-cart-message a {
+    font-size: 1.1em;
+    padding: 8px 15px;
+    border: 1px solid #7896AC;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 10px;
+}
+#empty-cart-message a:hover {
+    background-color: #7896AC;
+    color: white;
+}
+
+/* --- 頁尾 --- */
+.site-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #7896AC;
+    color: #fff;
+    font-size: 0.9em;
+    flex-shrink: 0; /* 防止頁尾被壓縮 */
+    margin-top: auto; /* 將頁尾推到底部 */
+}
+
+.footer-social a {
+    margin-left: 15px;
+}
+
+.footer-social img {
+    width: 24px;
+    height: 24px;
+}
+
+/* --- 響應式設計：針對小螢幕調整表格顯示 --- */
+@media (max-width: 768px) {
+    #cart-table thead {
+        display: none; /* 在小螢幕上隱藏表格頭部 */
+    }
+
+    #cart-table, #cart-table tbody, #cart-table tr, #cart-table td {
+        display: block; /* 將表格元素變為塊級元素，以實現堆疊佈局 */
+        width: 100%;
+        box-sizing: border-box; /* 確保 padding 不會讓寬度溢出 */
+    }
+
+    #cart-table tr {
+        margin-bottom: 20px; /* 增加行與行之間的間距 */
+        border: 1px solid #ccc;
+        border-radius: 8px; /* 添加圓角 */
+        display: flex;
+        flex-wrap: wrap; /* 允許內容換行 */
+        justify-content: space-between; /* 內容兩端對齊 */
+        padding: 15px; /* 行內部填充 */
+    }
+
+    #cart-table td {
+        border: none; /* 移除單元格邊框，因為行有邊框了 */
+        text-align: right;
+        padding: 8px 0;
+        width: 48%; /* 讓兩列並排 */
+        font-size: 1em; /* 調整字體大小 */
+    }
+
+    /* 偽元素 content 用於在小螢幕上顯示標題 */
+    #cart-table td:before {
+        content: attr(data-label); /* 從 HTML 的 data-label 屬性獲取內容 */
+        font-weight: bold;
+        float: left; /* 讓標題靠左浮動 */
+        color: #7896AC; /* 標題顏色 */
+        margin-right: 10px; /* 標題與內容的間距 */
+    }
+
+    /* 調整不同列的顯示順序和寬度 */
+    #cart-table td:nth-of-type(1) { order: 1; text-align: left; width: 100%; padding-bottom: 15px; } /* 商品資訊獨佔一行 */
+    #cart-table td:nth-of-type(2) { order: 2; } /* 單價 */
+    #cart-table td:nth-of-type(3) { order: 3; } /* 數量 */
+    #cart-table td:nth-of-type(4) { order: 4; } /* 小計 */
+    #cart-table td:nth-of-type(5) { order: 5; text-align: center; width: 100%; padding-top: 15px; } /* 操作按鈕獨佔一行 */
+
+    /* 調整總金額和結帳按鈕在小螢幕上的樣式 */
+    #total-price {
+        text-align: center; /* 總金額置中 */
+        margin-top: 20px;
+        font-size: 1.3em;
+    }
+    #checkout-btn {
+        width: 90%; /* 結帳按鈕佔大部分寬度 */
+        font-size: 1.1em;
+        padding: 12px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    #cart-container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    #cart-table th,
+    #cart-table td {
+        padding: 10px 5px; /* 進一步縮小內距 */
+    }
+    .cart-product-img {
+        width: 60px; /* 在更小螢幕上圖片略縮小 */
+        height: 60px;
+    }
+    #cart-table button {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+}

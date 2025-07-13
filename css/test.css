@@ -382,3 +382,8 @@ main, .product-list {
     }
 }
 
+
+#page-title {
+  margin-top: 100px; /* 或你想要的間距 */
+  padding-top: 10px;
+}

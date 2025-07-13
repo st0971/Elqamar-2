@@ -1,17 +1,20 @@
 /* 全域設定 */
 body {
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
-  color: #542D13;
-  background-color: #fff;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #542D13;
+    background-color: #fff;
+    
+    display: flex;           /* 將 body 設定為 Flex 容器 */
+    flex-direction: column;  /* 子元素垂直排列 */
+    min-height: 100vh;       /* 確保 body 至少佔據整個視窗高度 */
 }
 
 a {
   text-decoration: none;
   color: #542D13;
 }
-
 
 /* 導覽列 */
 .mobile-header {
@@ -172,27 +175,17 @@ a {
 
 
 
-
 /* 商品列表 */
 .product-list {
-    display: flex; /* 啟用 Flexbox */
-    flex-wrap: wrap; /* 允許商品卡片換行 */
-    justify-content: center; /* 讓商品卡片在主軸（水平）置中 */
-    gap: 20px; /* 商品卡片之間的間距 */
-    /* padding: 20px 0; /* 內部填充 - 這裡可以移除，因為已經在 .product-section 設定了 */
-    /* max-width: 1200px; /* 限制列表最大寬度，根據你的設計調整 - 這裡可以移除，因為已經在 .product-section 設定了 */
-    /* margin: 0 auto; /* 讓 product-list 自身在 product-section 內置中 - 這裡可以移除，因為 .product-section 已經置中 */
-}
-.product-section {
-    max-width: 1200px; /* 限制整個區塊的最大寬度 */
-    margin: 0 auto;    /* 讓整個區塊在頁面中置中 */
-    padding: 20px 0;   /* 區塊上下內邊距 */
-}
-
-/* 確保標題也在區塊內置中 */
-#page-title {
-    text-align: center;
-    margin-bottom: 20px; /* 標題與商品列表的間距 */
+    display: flex;
+    flex-direction: column; /* 如果 product-list 內部商品也是垂直排列的 */
+    gap: 15px;
+    padding: 15px;
+    
+    flex: 1; /* <-- 將 flex: 1; 應用到 .product-list */
+    /* 這裡的 padding-top: 50px; 在上面的共用規則中已經有了，
+       如果你想讓它在 product-list 獨有，可以這樣寫，但共用規則更簡潔 */
+    padding-top: 50px; /* 確保內容不會被 header 遮擋 */
 }
 #product-detail {
   position: relative; /* 如果必要 */
@@ -206,8 +199,6 @@ a {
   border-radius: 10px;
   padding: 10px;
   text-align: center;
-  flex: 0 0 calc(33.333% - 20px); /* 三個一排，減去 gap 的空間 */
-    max-width: 300px; /* 每個卡片的最大寬度 */
 }
 
 .product-card img {
@@ -328,6 +319,13 @@ a {
 main, .product-list {
   padding-top: 50px; /* ✅ 只推內容，不推輪播 */
 }
+main {
+    flex: 1; /* 讓 main 元素彈性成長，佔據所有可用空間 */
+    padding: 60px 15px; /* 保持原有的內距 */
+    max-width: 800px;
+    margin: auto;
+    color: #542D13;
+}
 
 
 /* 側邊選單也放置高層級，避免被其他內容遮擋 */
@@ -350,16 +348,117 @@ main, .product-list {
   color: #542D13;
 }
 
+.cart-product-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #542D13;
+  font-weight: bold;
+  text-decoration: none;
+}
 
+.cart-product-link:hover {
+  text-decoration: underline;
+}
+
+.cart-product-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+
+/* 購物車頁面主容器 */
+#cart-container {
+  padding: 60px 15px;
+  max-width: 800px;
+  margin: auto;
+  color: #542D13;
+}
+
+/* 標題 */
+#cart-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* 購物車表格 */
+#cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+
+#cart-table th,
+#cart-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+#cart-table th {
+  background-color: #7896AC;
+  color: #542D13;
+  font-weight: bold;
+}
+
+#cart-table select {
+  padding: 4px 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* 刪除按鈕 */
+#cart-table button {
+  background-color: #FEE985;
+  color: #542D13;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+#cart-table button:hover {
+  background-color: #FEE985;
+}
+
+/* 總金額 */
+#total-price {
+  font-weight: bold;
+  text-align: right;
+  margin-top: 10px;
+  font-size: 1.1em;
+}
+
+/* 結帳按鈕 */
+#checkout-btn {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  background-color: #FEE985;
+  color: #542D13;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#checkout-btn:hover {
+  background-color: #fcd858;
+}
 /* 頁尾 */
 .site-footer {
-  display: flex;
-  justify-content: center;  /* 左右兩端對齊 */
-  align-items: center;             /* 垂直置中 */
-  padding: 15px 20px;
-  background-color: #7896AC;
-  color: #fff;
-  font-size: 0.9em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #7896AC;
+    color: #fff;
+    font-size: 0.9em;
+    flex-shrink: 0; /* 防止頁尾被壓縮，確保其固定高度 */
 }
 
 .footer-social a {
@@ -370,15 +469,3 @@ main, .product-list {
   width: 24px;
   height: 24px;
 }
-@media (max-width: 768px) {
-    .product-card {
-        flex: 0 0 calc(50% - 20px); /* 兩兩一排 */
-    }
-}
-
-@media (max-width: 480px) {
-    .product-card {
-        flex: 0 0 calc(100% - 20px); /* 一個一排 */
-    }
-}
-
