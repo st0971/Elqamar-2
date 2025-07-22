@@ -65,10 +65,29 @@ const fakeData = [
   },
   {
     id: 901,
-    name: "test",
-    price: 350,
-    image: "images/samplephoto.png",
-    category: "test",
-    description: "test"
-  }
+    name: "名偵探柯南消失的手錶",
+    price: 300,
+    image: "images/消失的手錶_小隱_2.png",
+    category: "spot",
+    description: "商品：消失的手錶（小隱藏）",
+    stock: 1
+  },
+  {
+    id: 902, // 使用不同的 ID 範圍，避免與 indexData 衝突
+    name: '第五人格六周年禮盒',
+    price: 200,
+    image: 'images/真理谷美_2.png',
+    category: "spot",
+    description: '商品：第五人格六周年禮盒（谷美）',
+    stock: 1
+  },
+  {
+    id: 903, // 使用不同的 ID 範圍，避免與 indexData 衝突
+    name: '名偵探柯南零系列徽章',
+    price: 160,
+    image: 'images/零系列徽章_2.png',
+    category: "spot",
+    description: '商品：zero系列雙閃徽章',
+    stock: 1
+  },
 ];
