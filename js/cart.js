@@ -1,135 +1,176 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const cartTableBody = document.querySelector("#cart-table tbody");
-    const totalPriceEl = document.getElementById("total-price");
-    const badge = document.getElementById("cart-badge"); // 這個在 header 沒有，不會顯示小紅點
+document.addEventListener('DOMContentLoaded', function () {
+    const cartItemsContainer = document.getElementById('cartItems');
+    const cartTotalElement = document.getElementById('cartTotal');
 
-    // 新增的元素選擇
-    const cartTable = document.getElementById("cart-table");
-    const cartSummary = document.getElementById("cart-summary");
-    const checkoutBtn = document.getElementById("checkout-btn");
-    const emptyCartMessage = document.getElementById("empty-cart-message");
+    // Function to render cart items
+    function renderCart() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cartItemsContainer.innerHTML = ''; // Clear existing items
 
-    // 漢堡選單切換
-    const hamburger = document.getElementById("hamburger");
-    const sideMenu = document.getElementById("side-menu");
-    if (hamburger && sideMenu) {
-        hamburger.addEventListener("click", () => {
-            sideMenu.classList.toggle("hidden");
-        });
-    }
-
-    function updateCartUI() {
-        const cart = getCart() || [];
-        console.log("目前購物車內容:", cart);
-
-        cartTableBody.innerHTML = ""; // 清空表格內容
+        const cartHeader = document.querySelector('.cart-header');
+        const cartSummaryWrapper = document.querySelector('.cart-summary-wrapper');
 
         if (cart.length === 0) {
-            // 購物車為空：顯示提示訊息，隱藏表格、總金額和結帳按鈕
-            if (emptyCartMessage) { // 檢查元素是否存在
-                emptyCartMessage.style.display = 'block';
+                cartItemsContainer.innerHTML = `
+                    <p class="empty-cart-message">
+                    您的購物車是空的，快去逛逛吧！<br>
+                    <a href="index.html" class="go-shopping-btn">返回首頁</a>
+                    </p>
+                `;
+                cartTotalElement.textContent = '0';
+                if (cartHeader) cartHeader.style.display = 'none';
+                if (cartSummaryWrapper) cartSummaryWrapper.style.display = 'none';
+                updateCartBadge();
+                return;
             }
-            if (cartTable) {
-                cartTable.style.display = 'none';
+        else {
+            // Ensure header and summary are visible if cart has items
+            // Using 'grid' for header as defined in CSS, 'block' or 'flex' for wrapper depending on its display type
+            if (cartHeader) cartHeader.style.display = 'grid';
+            if (cartSummaryWrapper) cartSummaryWrapper.style.display = 'block'; // Or 'flex' if it's a flex container
+        }
+
+        let totalAmount = 0;
+
+        cart.forEach(cartItem => {
+            const product = window.allProductsData.find(p => p.id === cartItem.id);
+            if (product) {
+                const itemTotalPrice = product.price * cartItem.quantity;
+                totalAmount += itemTotalPrice;
+
+                // 判斷是否售完
+                const isSoldOut = product.stock === 0;
+
+                const quantityControlHTML = product.stock === 0
+                ? `<span class="sold-out-label">已售完</span>`
+                : `<select class="item-quantity" data-id="${product.id}">
+                        ${[...Array(product.stock).keys()].map(i => {
+                            const qty = i + 1;
+                            return `<option value="${qty}" ${qty === cartItem.quantity ? 'selected' : ''}>${qty}</option>`;
+                        }).join('')}
+                    </select>`;
+
+
+                const cartItemHTML = `
+                    <div class="cart-item" data-id="${product.id}">
+                        <div class="cart-item-product">
+                            <a href="product.html?id=${product.id}" class="cart-item-img-link">
+                                <img src="${product.img}" alt="${product.name}" class="cart-item-img" />
+                            </a>
+                            <div class="cart-item-details">
+                                <h3>${product.name}</h3>
+                            </div>
+                        </div>
+                        <div class="unit-price" data-label="單價"><span>$${product.price}</span></div>
+                        <div class="quantity-control" data-label="數量">
+                            ${quantityControlHTML}
+                        </div>
+                        <div class="subtotal-price" data-label="小計"><span>$${itemTotalPrice}</span></div>
+                        <div class="action-buttons">
+                            <button class="remove-item-btn" data-id="${product.id}">刪除</button>
+                        </div>
+                    </div>
+                `;
+
+                cartItemsContainer.insertAdjacentHTML('beforeend', cartItemHTML);
             }
-            if (cartSummary) {
-                cartSummary.style.display = 'none';
-            }
-            if (checkoutBtn) {
-                checkoutBtn.style.display = 'none';
-            }
-
-            totalPriceEl.textContent = "總金額：$0";
-            if (badge) badge.classList.add("hidden");
-
-            return; // 結束函式執行
-        }
-
-        // 購物車有商品：隱藏提示訊息，顯示表格、總金額和結帳按鈕
-        if (emptyCartMessage) { // 檢查元素是否存在
-            emptyCartMessage.style.display = 'none';
-        }
-        if (cartTable) {
-            cartTable.style.display = 'table'; // 使用 'table' 來確保表格正確顯示
-        }
-        if (cartSummary) {
-            cartSummary.style.display = 'block';
-        }
-        if (checkoutBtn) {
-            checkoutBtn.style.display = 'block';
-        }
-
-        let total = 0;
-        cart.forEach(item => {
-            const subtotal = item.qty * item.price;
-            total += subtotal;
-
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td data-label="商品">
-                    <a href="product.html?id=${item.id}" class="cart-product-link">
-                        <img src="${item.image}" alt="${item.name}" class="cart-product-img" />
-                        ${item.name}
-                    </a>
-                </td>
-                <td data-label="單價">$${item.price}</td>
-                <td data-label="數量">
-                    <select data-id="${item.id}">
-                        ${Array.from({ length: 10 }, (_, i) =>
-                            `<option value="${i + 1}" ${item.qty === i + 1 ? "selected" : ""}>${i + 1}</option>`
-                        ).join("")}
-                    </select>
-                </td>
-                <td data-label="小計">$${subtotal}</td>
-                <td data-label="操作"><button data-id="${item.id}" class="delete-btn">刪除</button></td>
-            `;
-
-            cartTableBody.appendChild(row);
         });
 
-        totalPriceEl.textContent = `總金額：$${total}`;
+        // 金額逗號
+        cartTotalElement.textContent = totalAmount.toLocaleString();
+        attachCartEventListeners();
+        updateCartBadge();
+    }
+
+    // Function to attach event listeners for quantity changes and removal
+    function attachCartEventListeners() {
+        document.querySelectorAll('.item-quantity').forEach(input => {
+            input.addEventListener('change', function () {
+                const productId = parseInt(this.getAttribute('data-id'));
+                const newQuantity = parseInt(this.value);
+                updateCartQuantity(productId, newQuantity);
+            });
+        });
+
+        document.querySelectorAll('.remove-item-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const productId = parseInt(this.getAttribute('data-id'));
+                removeFromCart(productId);
+            });
+        });
+    }
+
+    // Function to update item quantity in localStorage
+    function updateCartQuantity(productId, newQuantity) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const itemIndex = cart.findIndex(item => item.id === productId);
+
+        if (itemIndex > -1) {
+            const product = window.allProductsData.find(p => p.id === productId);
+            if (!product) return;
+
+            if (newQuantity > product.stock) {
+                cart[itemIndex].quantity = product.stock;
+                showToast(`數量已達庫存上限（${product.stock}）`);
+            } else if (newQuantity > 0) {
+                cart[itemIndex].quantity = newQuantity;
+                showToast("購物車已更新！");
+            } else {
+                cart.splice(itemIndex, 1);
+                showToast("商品已從購物車移除！");
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+        }
+
+    }
+
+    // Function to remove item from cart
+    function removeFromCart(productId) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart = cart.filter(item => item.id !== productId);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCart(); // Re-render cart to update display and total
+        showToast("商品已從購物車移除！");
+    }
+
+    // Function to update the cart badge (copied from index.js for consistency)
+    function updateCartBadge() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const totalCount = cart.reduce((sum, item) => sum + (parseInt(item.quantity) || 0), 0);
+
+        const cartBtn = document.querySelector('.cart-icon');
+        const badge = cartBtn?.querySelector('.cart-badge');
+
         if (badge) {
-            badge.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
-            badge.classList.remove("hidden");
+            if (totalCount > 0) {
+                badge.textContent = totalCount;
+                cartBtn.classList.add('has-items');
+            } else {
+                badge.textContent = '';
+                cartBtn.classList.remove('has-items');
+            }
         }
     }
 
-    // 監聽數量變更
-    cartTableBody.addEventListener("change", e => {
-        if (e.target.tagName === "SELECT") {
-            const id = parseInt(e.target.dataset.id);
-            const qty = parseInt(e.target.value);
-            const cart = getCart() || [];
-            const index = cart.findIndex(item => item.id === id);
-            if (index !== -1) {
-                cart[index].qty = qty;
-                saveCart(cart);
-                updateCartUI();
-            }
-        }
-    });
+    // Function to display toast messages (copied from index.js for consistency)
+    function showToast(message) {
+        let toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
 
-    // 監聽刪除按鈕
-    cartTableBody.addEventListener("click", e => {
-        if (e.target.classList.contains("delete-btn")) {
-            const id = parseInt(e.target.dataset.id);
-            const cart = getCart() || [];
-            const index = cart.findIndex(item => item.id === id);
-            if (index !== -1) {
-                cart.splice(index, 1);
-                saveCart(cart);
-                updateCartUI();
-            }
-        }
-    });
-
-    // 結帳事件
-    if (checkoutBtn) { // 檢查元素是否存在
-        checkoutBtn.addEventListener("click", () => {
-            alert("請前往IG、FB喊單！");
-        });
+        setTimeout(() => {
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 1500);
+        }, 10);
     }
 
-    // 初始化購物車介面
-    updateCartUI();
+    // Initial render of the cart when the page loads
+    renderCart();
+    updateCartBadge();
 });

@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // 主要元素變數
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     const dropdownToggle = document.querySelector('.dropdown-toggle');
@@ -8,14 +9,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchContainer = document.querySelector('.search-container');
     const searchInput = document.querySelector('.search-input');
     const suggestionList = document.querySelector('.suggestion-list');
-    const searchConfirm = document.querySelector('.search-confirm');
 
-    const cartBtn = document.querySelector('.cart-icon'); // ← 修正選擇器
+    const cartBtn = document.querySelector('.cart-icon');
+    if (!cartBtn) {
+        console.warn("找不到 .cart-icon 元素，購物車紅點功能無法啟用");
+    }
 
-    // ✅ 初始隱藏手機版選單
+    // 初始下拉選單隱藏
     dropdownParentLi.classList.remove('active');
 
-    // ✅ 漢堡選單切換
+    // 漢堡選單切換
     hamburger.addEventListener('click', function () {
         navLinks.classList.toggle('active');
         hamburger.classList.toggle('active');
@@ -24,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // ✅ 手機下拉選單展開/收合
+    // 手機版下拉選單點擊
     dropdownToggle.addEventListener('click', function (event) {
         event.preventDefault();
         if (window.innerWidth <= 768) {
@@ -32,11 +35,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // ✅ 點選導覽選單後自動收合
+    // 點擊連結收起選單
     navLinks.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', function () {
             if (this === dropdownToggle) return;
-
             if (dropdownParentLi.contains(this)) {
                 dropdownParentLi.classList.remove('active');
             } else {
@@ -47,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // ✅ 點擊外部收合導覽與搜尋欄
+    // 點擊外部收起選單與搜尋
     document.addEventListener('click', function (event) {
         const isClickInsideNav = navLinks.contains(event.target) || hamburger.contains(event.target);
         const isClickInsideSearch = searchContainer.contains(event.target) || searchToggle.contains(event.target);
@@ -62,11 +64,11 @@ document.addEventListener('DOMContentLoaded', function () {
             suggestionList.classList.add('hidden');
             searchContainer.classList.add('hidden');
             searchInput.value = "";
-            renderInitialProducts(); // 回復初始商品
+            renderInitialProducts();
         }
     });
 
-    // ✅ 螢幕寬度變化時自動收合選單
+    // 螢幕尺寸改變時重設狀態
     window.addEventListener('resize', function () {
         if (window.innerWidth > 768) {
             navLinks.classList.remove('active');
@@ -75,11 +77,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // ✅ 點擊搜尋 icon 顯示搜尋欄
+    // 點擊搜尋 icon 顯示或隱藏搜尋欄
     searchToggle.addEventListener('click', () => {
         searchContainer.classList.toggle('hidden');
         suggestionList.classList.add('hidden');
-
         if (!searchContainer.classList.contains('hidden')) {
             searchInput.focus();
         } else {
@@ -87,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // ✅ 即時搜尋功能
+    // 即時搜尋功能
     searchInput.addEventListener('input', () => {
         const keyword = searchInput.value.trim().toLowerCase();
         suggestionList.innerHTML = "";
@@ -97,10 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        const matches = window.allProductsData.filter(item =>
-            item.name.toLowerCase().includes(keyword)
-        );
-
+        const matches = window.allProductsData.filter(item => item.name.toLowerCase().includes(keyword));
         if (matches.length > 0) {
             matches.forEach(item => {
                 const li = document.createElement('li');
@@ -118,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // ✅ Enter 鍵或按搜尋按鈕確認搜尋
+    // 按 Enter 搜尋
     searchInput.addEventListener('keydown', (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
@@ -130,6 +128,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // 搜尋按鈕點擊事件，綁定一次
+    const searchConfirm = document.querySelector('.search-confirm');
     if (searchConfirm) {
         searchConfirm.addEventListener('click', () => {
             const keyword = searchInput.value.trim();
@@ -140,51 +140,51 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // ✅ 渲染首頁商品（ID 1~3）
+    // 商品渲染（ID 101~105）
     function renderInitialProducts() {
-        const productContainer = document.getElementById('productList');
-        const title = document.getElementById('productSectionTitle');
-        if (!productContainer || !title) return;
+    const productContainer = document.getElementById('productList');
+    const title = document.getElementById('productSectionTitle');
+    if (!productContainer || !title) return;
 
-        const products = window.allProductsData.filter(item => [1, 2, 3].includes(item.id));
+    const products = window.allProductsData.filter(item => [101, 102, 103, 104, 105].includes(item.id));
 
-        title.textContent = "委託項目";
+    title.textContent = "委託項目";
 
-        if (products.length > 0) {
-            productContainer.innerHTML = products.map(generateProductHTML).join('');
-        } else {
-            productContainer.innerHTML = `<div class="no-products">暫無</div>`;
-        }
-
-        attachAddToCartEvents();
+    if (products.length > 0) {
+        productContainer.innerHTML = products.map(generateProductHTML).join('');
+    } else {
+        productContainer.innerHTML = `<div class="no-products">暫無</div>`;
     }
 
+    attachAddToCartEvents();
+}
 
 
-    // ✅ 搜尋結果渲染
+    // 搜尋結果渲染
     function renderSearchResults(keyword) {
-        const results = window.allProductsData.filter(item =>
-            item.name.toLowerCase().includes(keyword.toLowerCase())
-        );
+    const results = window.allProductsData.filter(item =>
+        item.name.toLowerCase().includes(keyword.toLowerCase())
+    );
 
-        const productContainer = document.getElementById('productList');
-        const title = document.getElementById('productSectionTitle');
-        if (!productContainer || !title) return;
+    const productContainer = document.getElementById('productList');
+    const title = document.getElementById('productSectionTitle');
+    if (!productContainer || !title) return;
 
-        title.textContent = `搜尋結果：「${keyword}」`;
+    title.textContent = `搜尋結果：「${keyword}」`;
 
-        if (results.length > 0) {
-            productContainer.innerHTML = results.map(generateProductHTML).join('');
-        } else {
-            productContainer.innerHTML = `<p class="no-products">暫無商品</p>`;
-        }
-
-        attachAddToCartEvents();
+    if (results.length > 0) {
+        productContainer.innerHTML = results.map(generateProductHTML).join('');
+    } else {
+        productContainer.innerHTML = `<p class="no-products">暫無商品</p>`;
     }
 
+    attachAddToCartEvents();
+}
 
-    // ✅ 單一商品卡片 HTML
+
+    // 生成商品卡片 HTML
     function generateProductHTML(product) {
+        const isSoldOut = product.stock === 0;
         return `
             <div class="product-card">
                 <a href="product.html?id=${product.id}">
@@ -193,13 +193,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div class="product-info">
                     <h3>${product.name}</h3>
                     <p>$${product.price}</p>
-                    <button class="add-to-cart" data-id="${product.id}">加入購物車</button>
+                    ${isSoldOut 
+                        ? `<span class="sold-out-label">已售完</span>` 
+                        : `<button class="add-to-cart" data-id="${product.id}">加入購物車</button>`
+                    }
                 </div>
             </div>
         `;
     }
 
-    // ✅ 加入購物車按鈕綁定
+
+    // 綁定加入購物車事件
     function attachAddToCartEvents() {
         document.querySelectorAll('.add-to-cart').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -211,86 +215,38 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // ✅ 加入購物車（儲存在 localStorage）
+    // 加入購物車邏輯（localStorage）
     function addToCart(productId) {
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         const existing = cart.find(item => item.id === productId);
-
         if (existing) {
             existing.quantity++;
         } else {
             cart.push({ id: productId, quantity: 1 });
         }
-
         localStorage.setItem('cart', JSON.stringify(cart));
-        console.log("✅ 加入後購物車內容：", cart); // ← 這行會幫你 debug
         updateCartBadge();
     }
 
-    // ✅ 輪播功能（滿版 + 自動播放）
-    (function initCarousel() {
-        const track = document.querySelector('.carousel-track');
-        const slides = document.querySelectorAll('.carousel-slide');
-        const prevBtn = document.querySelector('.carousel-btn.prev');
-        const nextBtn = document.querySelector('.carousel-btn.next');
-        let currentIndex = 0;
-        let autoPlayInterval;
-
-        function updateCarousel() {
-            const slideWidth = slides[0].clientWidth;
-            track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-        }
-
-        function showPrev() {
-            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-            updateCarousel();
-            resetAutoPlay();
-        }
-
-        function showNext() {
-            currentIndex = (currentIndex + 1) % slides.length;
-            updateCarousel();
-            resetAutoPlay();
-        }
-
-        function autoPlay() {
-            autoPlayInterval = setInterval(showNext, 5000); // 每 5 秒播放一次
-        }
-
-        function resetAutoPlay() {
-            clearInterval(autoPlayInterval);
-            autoPlay();
-        }
-
-        window.addEventListener('resize', updateCarousel);
-        prevBtn.addEventListener('click', showPrev);
-        nextBtn.addEventListener('click', showNext);
-
-        updateCarousel(); // 初始定位
-        autoPlay();       // 啟動自動播放
-    })();
-
-
-    // ✅ 更新購物車紅點
+    // 更新購物車紅點
     function updateCartBadge() {
+        if (!cartBtn) return;
+        const badge = cartBtn.querySelector('.cart-badge');
+        if (!badge) return;
+
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const totalCount = cart.reduce((sum, item) => sum + (parseInt(item.quantity) || 0), 0);
+        const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-        const cartBtn = document.querySelector('.cart-icon');
-        const badge = cartBtn?.querySelector('.cart-badge');
-
-        if (badge) {
-            if (totalCount > 0) {
-                badge.textContent = totalCount;
-                cartBtn.classList.add('has-items');
-            } else {
-                badge.textContent = '';
-                cartBtn.classList.remove('has-items');
-            }
+        if (totalCount > 0) {
+            badge.textContent = totalCount;
+            cartBtn.classList.add('has-items');
+        } else {
+            badge.textContent = 0;
+            cartBtn.classList.remove('has-items');
         }
     }
 
-    // ✅ 顯示提示訊息
+    // 顯示提示訊息
     function showToast(message) {
         let toast = document.createElement('div');
         toast.className = 'toast';
@@ -306,12 +262,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 10);
     }
 
-    // ✅ 初次載入顯示紅點
+    // 顯示購物車紅點 (初始化呼叫)
     function showCartDot() {
         updateCartBadge();
     }
 
-    // ✅ 初始化
+    // 初始化呼叫
     renderInitialProducts();
     updateCartBadge();
 });

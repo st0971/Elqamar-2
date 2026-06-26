@@ -1,74 +1,125 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const detailContainer = document.getElementById("product-detail");
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = parseInt(urlParams.get('id'));
+    const product = window.allProductsData.find(p => p.id === productId);
+    const detailContainer = document.getElementById('productDetail');
 
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
 
-  // 讀取 URL 參數 ?id=xxx
-  const params = new URLSearchParams(location.search);
-  const productId = parseInt(params.get("id"));
+    // 切換漢堡選單與 nav-links 顯示
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+    });
 
-  if (!productId) {
-    detailContainer.innerHTML = "<p>商品ID錯誤，無法顯示商品。</p>";
+    // 手機下拉選單展開控制
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+        e.preventDefault(); // 防止連結跳轉
+        const parentLi = toggle.closest('li');
+        parentLi.classList.toggle('active');
+        });
+    });
+
+    if (!product) {
+        detailContainer.innerHTML = "<p>找不到此商品。</p>";
+        return;
+    }
+    if (product.stock === 0) {
+    detailContainer.innerHTML = `
+        <img src="${product.img}" alt="${product.name}" class="product-detail-img" /> 
+        <div class="product-info">
+            <h1>${product.name}</h1>
+            <p class="price">價格：$${product.price}</p>
+            <p style="color: red; font-weight: bold;">此商品已售完</p>
+        </div>
+        <div class="product-description-section">
+            <h2>商品說明</h2>
+            <p>${(product.description || '這是商品的詳細描述。').replace(/\n/g, '<br>')}</p>
+        </div>
+    `;
     return;
-  }
-
-  const product = fakeData.find(p => p.id === productId);
-
-  if (!product) {
-    detailContainer.innerHTML = "<p>找不到該商品。</p>";
-    return;
-  }
-
-  detailContainer.innerHTML = `
-  <h2>${product.name}</h2>
-  <img src="${product.image}" alt="${product.name}" style="width:100%;max-width:400px;border-radius:8px;" />
-  <p>價格：$${product.price}</p>
-  <p>${(product.description || "").replace(/\n/g, "<br>")}</p>
-
-  <label for="qty-select" style="font-weight:bold;">數量：</label>
-  <select id="qty-select" style="margin: 10px 0; padding: 6px 10px; border-radius: 4px;">
-  ${[...Array(product.stock || 10)].map((_, i) => `<option value="${i + 1}">${i + 1}</option>`).join("")}
-  </select>
-
-  <br/>
-  <button id="add-to-cart-btn" style="background:#FEE985;color:#542D13;border:none;padding:10px 20px;border-radius:6px;font-weight:bold;">
-    加入購物車
-  </button>
-`;
+}
 
 
-  // 加入購物車事件
-  document.getElementById("add-to-cart-btn").addEventListener("click", () => {
-    const qty = parseInt(document.getElementById("qty-select").value) || 1;
-    const productToAdd = { ...product, qty };  // 複製一份產品並加入 qty
-    addToCart(productToAdd);
+    // 將商品圖片從 product.html 中移除的連結邏輯修正，這裡圖片不應連結到首頁
+    detailContainer.innerHTML = `
+        <img src="${product.img}" alt="${product.name}" class="product-detail-img" /> 
+        <div class="product-info">
+            <h1>${product.name}</h1>
+            <p class="price">價格：$${product.price}</p>
+            <div class="form-group">
+                <label for="quantity">數量：</label>
+                <select id="quantity">
+                    ${[...Array(product.stock).keys()].map(i => `<option value="${i+1}">${i+1}</option>`).join('')}
+                </select>
+                <button id="addToCart">加入購物車</button>
+            </div>
+        </div>
+        <div class="product-description-section">
+            <h2>商品說明</h2>
+            <p>${(product.description || '這是商品的詳細描述。').replace(/\n/g, '<br>')}</p>
+        </div>
+    `;
+
+
+    document.getElementById('addToCart').addEventListener('click', () => {
+        const quantity = parseInt(document.getElementById('quantity').value);
+        addToCart(product.id, quantity);
+        showToast("已加入購物車！"); // 顯示 toast 訊息
+        updateCartBadge(); // 更新購物車小紅點
+    });
+
+    function addToCart(productId, qty) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const existing = cart.find(item => item.id === productId);
+        if (existing) {
+            existing.quantity += qty;
+        } else {
+            cart.push({ id: productId, quantity: qty });
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    // --- 確保這些函數在 product.js 中存在 ---
+
+    // 顯示 toast 訊息的函數
+    function showToast(message) {
+        let toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 1500);
+        }, 10);
+    }
+
+    // 更新購物車小紅點的函數
+    function updateCartBadge() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const totalCount = cart.reduce((sum, item) => sum + (parseInt(item.quantity) || 0), 0);
+
+        const cartBtn = document.querySelector('.cart-icon');
+        const badge = cartBtn?.querySelector('.cart-badge');
+
+        if (badge) {
+            if (totalCount > 0) {
+                badge.textContent = totalCount;
+                cartBtn.classList.add('has-items');
+            } else {
+                badge.textContent = '';
+                cartBtn.classList.remove('has-items');
+            }
+        }
+    }
+
+    // 頁面加載時也更新一次購物車小紅點，確保初始狀態正確
     updateCartBadge();
-    alert("已加入購物車！");
-  });
-
-
-  // 更新購物車小紅點
-  function updateCartBadge() {
-  const badge = document.getElementById("cart-badge");
-  const cart = getCart();
-
-  if (badge && cart && cart.length > 0) {
-    const totalQty = cart.reduce((sum, item) => sum + Number(item.qty || 0), 0);
-    badge.textContent = totalQty;
-    badge.classList.remove("hidden");
-  } else if (badge) {
-    badge.classList.add("hidden");
-  }
-  }
-
-
-  updateCartBadge();
-
-  // 漢堡選單和搜尋切換同首頁 main.js
-  const hamburger = document.getElementById("hamburger");
-  const sideMenu = document.getElementById("side-menu");
-
-  hamburger.addEventListener("click", () => {
-    sideMenu.classList.toggle("hidden");
-  });
-
 });
