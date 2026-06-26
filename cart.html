@@ -1,78 +1,119 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Elqamar—購物車</title>
-  <link rel="stylesheet" href="css/cart.css" />
-</head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Elqamar | 購物車</title>
+    <link rel="icon" type="image/png" sizes="16x25" href="images/LOGO.png">
+    <link rel="icon" type="image/png" sizes="32x40" href="images/LOGO.png">
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/cart.css" /> </head>
 <body>
-  <header class="mobile-header">
-    <div class="left-group">
-      <button id="hamburger">☰</button>
-      <a href="index.html" class="logo">Elqamar</a>
-    </div>
-    <div class="right-group">
-      <a href="https://www.instagram.com/elqamar.ovo/"><img src="images/ig.png" alt="IG" /></a>
-      <a href="https://www.facebook.com/profile.php?id=61577311714295"><img src="images/fb.png" alt="FB" /></a>
-    </div>
-  </header>
-  <!-- 側邊選單 -->
-  <nav id="side-menu" class="hidden">
-    <ul>
-      <li><a href="index.html">首頁</a></li>
-      <li>
-        <details>
-          <summary>預購商品</summary>
-          <ul>
-            <li><a href="idv.html">第五人格</a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-          </ul>
-        </details>
-      </li>
-      <li><a href="spot.html">現貨商品</a></li>
-      <li><a href="notice.html">交易須知</a></li>
-      <li><a href="qa.html">Q&A</a></li>
-    </ul>
-  </nav>
+    <div class="content-wrapper">
+        <header class="navbar">
+            <div class="container">
+                <div class="nav-left">
+                    <a href="index.html" class="logo">Elqamar</a>
+                    <nav class="nav-links">
+                        <ul>
+                            <li><a href="index.html">首頁</a></li>
+                            <li>
+                                <a href="" class="dropdown-toggle">委託項目▼</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="idv.html">半身</a></li>
+                                    <!-- <li><a href="#">全身</a></li> -->
+                                    <!-- <li><a href=""></a></li> -->
+                                </ul>
+                            </li>                         
+                            <li><a href="notice.html">交易須知</a></li>
+                            <li><a href="spot.html">例圖</a></li>
+                        </ul>
+                    </nav>
+                </div>
 
-  <main style="padding: 60px 15px;" id="cart-container">
-    <h2>此為試算處</h2>
-    <div id="empty-cart-message" style="text-align: center; display: none;">
-        <p>您的購物車是空的。</p>
-        <p>快去逛逛，挑選您喜歡的商品吧！</p>
-        <a href="index.html" style="color: #7896AC; font-weight: bold;">前往首頁</a>
-    </div>
-    <table id="cart-table" style="width:100%;border-collapse:collapse;">
-      <thead>
-        <tr>
-          <th>商品</th>
-          <th>單價</th>
-          <th>數量</th>
-          <th>小計</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-    <div id="cart-summary">
-        <p id="total-price">總金額：$0</p>
-    </div>
-    <button id="checkout-btn">前往結帳</button>
-  </main>
+                <div class="nav-icons-wrapper">
+                    <div class="nav-right">                
+                        <a href="cart.html" class="cart-icon">
+                            <img src="images/cart.png" alt="購物車" />
+                            <span class="cart-badge">0</span>
+                        </a>
 
-  <!-- 頁尾 -->
-  <footer class="site-footer">
-    <p class="copyright">© Elqamar ｜聯絡我們：</p>
-    <div class="footer-social">
-      <a href="https://www.instagram.com/elqamar.ovo/"><img src="images/ig.png" alt="IG" /></a>
-      <a href="https://www.facebook.com/profile.php?id=61577311714295"><img src="images/fb.png" alt="FB" /></a>
-    </div>
-  </footer>
+                        <a href="https://www.instagram.com/elqamar.ouo/" target="_blank" class="icon-link" aria-label="Instagram">
+                            <img src="images/ig.png" alt="Instagram" />
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=61577311714295" target="_blank" class="icon-link" aria-label="Facebook">
+                            <img src="images/fb.png" alt="Facebook" />
+                        </a>
+                    </div>
 
-  <script src="js/data.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/cart.js"></script>
+                    <button class="hamburger" aria-label="Toggle navigation">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="container main-content">
+            <h1>此處僅供試算，如需購買，請透過 IG 或 FB 私訊與我們聯繫</h1>
+            <div class="cart-section-container">
+              <div class="cart-content-wrapper">
+                  <div class="cart-header">
+                      <div class="cart-header-item product-col">商品</div>
+                      <div class="cart-header-item">單價</div>
+                      <div class="cart-header-item">數量</div>
+                      <div class="cart-header-item">小計</div>
+                      <div class="cart-header-item">操作</div>
+                  </div>
+                  <div id="cartItems">
+                      </div>
+              </div>
+
+              <div class="cart-summary-wrapper">
+                  <div class="cart-summary">
+                      <p>總金額: $<span id="cartTotal">0</span></p>
+                      <!-- <button class="checkout-btn">前往結帳</button> -->
+                  </div>
+              </div>
+          </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-primary">
+                <p>&copy; Elqamar ｜聯絡我們：</p>
+                <div class="footer-social-icons">
+                    <a href="https://www.instagram.com/elqamar.ouo/" target="_blank"><img src="images/ig.png" alt="IG" /></a>
+                    <a href="https://www.facebook.com/profile.php?id=61577311714295" target="_blank"><img src="images/fb.png" alt="FB" /></a>
+                </div>
+            </div>
+            <div class="footer-links-text">
+                </div>
+        </div>
+    </footer>
+
+    <script src="js/allProductsData.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+    // 禁用右鍵
+    document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    });
+
+    // 禁用 F12 與 Ctrl+Shift+I 等
+    document.addEventListener('keydown', function (e) {
+        if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+        (e.ctrlKey && e.key === 'U')
+        ) {
+        e.preventDefault();
+        }
+    });
+    </script>
+
 </body>
 </html>
