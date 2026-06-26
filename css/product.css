@@ -1,178 +1,713 @@
-/* 全域設定 */
-body {
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
-  color: #542D13;
-  background-color: #fff;
+/* 基本設定 */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
 }
 
-a {
-  text-decoration: none;
-  color: #542D13;
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.container.main-content {
+    margin-bottom: 50px;
+    width: 90%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* 導覽列 */
-.mobile-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 50px;
-  z-index: 10000; /* 調成 10000 */
-  background-color: #7896AC;
+.navbar {
+    background-color: #7896AC;
+    color: #542D13;
+    padding: 15px 0;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.logo {
+    color: #542D13;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    /* 這個 ul 的 display 會在媒體查詢中被定義 */
+}
+
+.nav-links li {
+    margin-left: 20px;
+    position: relative; /* 確保下拉選單能基於此定位 */
+}
+
+.nav-links a {
+    color: #542D13;
+    text-decoration: none;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #fff;
+}
+
+/* --- 下拉選單預設樣式 (所有螢幕尺寸通用) --- */
+/* 將 .dropdown-menu 預設為隱藏，使用一個足夠的特異性 */
+.nav-links li .dropdown-menu { /* <-- 維持這個選擇器來隱藏 */
+    display: none; 
+    position: absolute; /* 電腦版需要絕對定位 */
+    background-color: #6C849B;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1001;
+    top: 100%;
+    left: 0;
+    padding: 0;
+    list-style: none;
+    border-radius: 4px;
+}
+/* --- 結束 --- */
+
+.dropdown-menu li {
+    margin: 0; /* 下拉選單內的項目不需要額外的 margin-left */
+}
+
+.dropdown-menu a {
+    color: #542D13;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+/* 導覽列右側圖示 */
+.nav-icons-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.icon-button,
+.icon-link {
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.icon-button img,
+.icon-link img {
+    width: 24px;
+    height: 24px;
+}
+
+/* 搜尋功能 */
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 10px;
+}
+.search-container.hidden,
+.suggestion-list.hidden {
+    display: none;
+}
+
+.search-input {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    min-width: 150px;
+}
+.search-confirm {
+    padding: 5px 12px;
+    font-size: 0.9em;
+    background-color: #FEE986;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.search-confirm:hover {
+    background-color: #FFD54F;
+}
+
+.suggestion-list {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    width: 200px;
+    max-height: 200px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    z-index: 999;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.suggestion-list li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.suggestion-list li:hover {
+    background-color: #f0f0f0;
+}
+
+/* 商品區 */
+.product-section {
+    padding: 2rem 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    justify-content: center;
+}
+
+/* 商品卡片 */
+.product-card {
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; /* 置中所有文字 */
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+}
+
+.product-card a {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* 正方形框 */
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-card img.product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 商品名稱與價格 */
+.product-info h3 {
+    margin: 0.5rem 0 0.3rem;
+    font-size: 1.1rem;
+}
+
+.product-info p {
+    color: #000;
+    font-weight: bold;
+    margin: 0 0 0.8rem;
+}
+/* 商品詳情區容器 */
+.product-detail-container {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 12px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-.mobile-header .logo {
-  font-weight: bold;
-  font-size: 1.2em;
+  gap: 40px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 2rem 1rem;
 }
 
-.left-group, .right-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.mobile-header button,
-.mobile-header a {
-  background: none;
-  border: none;
-  padding: 5px;
-  cursor: pointer;
-  color: #542D13;
-}
-
-.mobile-header img {
-  width: 24px;
-  height: 24px;
-}
-
-/* 漢堡按鈕特別調整 */
-#hamburger {
-  position: relative;
-  z-index: 20000; /* 高於 header 確保可點擊 */
-  font-size: 1.5em;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #542D13;
-}
-
-/* 搜尋欄 */
-#search-bar {
-  position: fixed;
-  top: 50px; /* 導覽列高度 */
-  left: 0;
-  right: 0;
-  background-color: #FEE985;
-  z-index: 9998;
-  display: flex;
-  padding: 10px;
-  gap: 8px;
-}
-
-#search-bar.hidden {
-  display: none;
-}
-
-#search-bar input {
-  flex: 1;
-  padding: 8px;
-  font-size: 1em;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-#search-bar button {
-  background-color: #542D13;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-weight: bold;
-}
-
-/* 側邊選單 */
-#side-menu {
-  position: fixed;
-  top: 50px; /* 導覽列下方 */
-  left: 0;
+.product-detail-container img {
+  max-width: 500px;   /* 限制圖片寬度避免太大 */
   width: 100%;
-  background: #fff;
-  z-index: 9998;
-  border-bottom: 1px solid #ccc;
-  padding: 10px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  flex-shrink: 0;     /* 讓圖片不被壓縮 */
 }
 
-#side-menu.hidden {
-  display: none;
+.product-info {
+  flex: 1;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+    /* 商品說明 */
+.product-description-section {
+  border-top: 1px solid #ccc;
+  padding-top: 1.5rem;
+  color: #333;
+  /* 這邊保持寬度100% */
+  width: 100%;
 }
 
-#side-menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+
+.product-description-section p {
+  white-space: pre-line;
+  line-height: 1.6;
 }
 
-#side-menu li {
-  margin: 8px 0;
-}
-
-#side-menu summary {
-  cursor: pointer;
+.product-description-section h2 {
+  font-size: 1.2rem;
   font-weight: bold;
+  color: #5e3c00;
+  margin-bottom: 1rem;
 }
 
-/* 商品詳情主區塊 */
-#product-detail {
-  position: relative;
-  z-index: auto;
-  padding: 60px 15px 15px; /* 頂部預留導覽列高度，避免遮擋 */
+    /* 商品標題 */
+    .product-info h1 {
+      font-size: 1.8rem;
+      color: #542d13;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-info p {
+      margin-bottom: 0.8rem;
+    }
+
+    /* 價格 */
+    .product-info p.price {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #5e3c00;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .product-info .form-group {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    #quantity {
+      padding: 4px 6px;
+      font-size: 1rem;
+    }
+    /* 數量選單 + 按鈕容器 */
+.quantity-and-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+/* 數量輸入框 */
+.quantity-input {
+  width: 60px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #aaa;
+  font-size: 1rem;
 }
 
-/* 購物車小紅點 */
-#cart-link {
-  position: relative;
-  display: inline-block;
+    #addToCart {
+      padding: 8px 16px;
+      background-color: #FEE985;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s ease;
+    }
+
+    #addToCart:hover {
+      background-color: #e5c0a3;
+    }
+
+    .product-description-section {
+      margin-top: 3rem;
+      border-top: 1px solid #ccc;
+      padding-top: 1.5rem;
+    }
+
+    .product-description-section h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      font-weight: bold;
+      color: #5e3c00;
+    }
+
+    .product-description-section p {
+      white-space: pre-line;
+      line-height: 1.6;
+    }
+/* 加入購物車按鈕 */
+.add-to-cart {
+    background-color: #FEE986;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin: 0 auto; /* 置中 */
+    display: block;
+    max-width: 140px;
 }
 
-#cart-badge {
+.add-to-cart:hover {
+    background-color: #FFD54F;
+}
+
+/* 購物車圖示 */
+.cart-icon {
+    position: relative;
+}
+
+.cart-icon img {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+}
+
+/* 購物車紅點 */
+.cart-badge {
   position: absolute;
   top: -6px;
   right: -6px;
-  background: red;
+  background-color: red;
   color: white;
-  font-size: 0.7em;
+  font-size: 12px;
   font-weight: bold;
   padding: 2px 6px;
-  border-radius: 50%;
-  pointer-events: none;
+  border-radius: 999px;
+  display: inline-block;
+  min-width: 16px;
+  text-align: center;
+  line-height: 1;
+  z-index: 10;
 }
 
-#cart-badge.hidden {
-  display: none;
+.cart-icon.has-items .cart-badge {
+  display: inline-block;
 }
+
+.cart-icon.has-items .cart-badge {
+  display: inline-block;
+}
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+/* 提示訊息 */
+.toast {
+    visibility: hidden; /* 預設隱藏 */
+    min-width: 250px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1000; /* 確保在最上層 */
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 30px; /* 距離底部 */
+    font-size: 17px;
+    white-space: nowrap; /* 防止文字換行 */
+    opacity: 0; /* 初始透明度為0 */
+    transition: opacity 0.3s, visibility 0.3s; /* 過渡效果 */
+}
+
+.toast.show {
+    visibility: visible; /* 顯示 toast */
+    opacity: 1; /* 漸入 */
+}
+
+/* 漢堡選單 */
+.hamburger {
+    display: none; /* 預設在電腦版是隱藏的 */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    width: 30px;
+    height: 20px;
+    position: relative;
+    z-index: 1000;
+    align-self: center;
+}
+
+.hamburger .bar {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #542D13;
+    margin: 4px 0;
+    transition: all 0.3s ease;
+}
+
+.hamburger.active .bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+}
+.hamburger.active .bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
 /* 頁尾 */
-.site-footer {
-  display: flex;
-  justify-content: center;  /* 左右兩端對齊 */
-  align-items: center;             /* 垂直置中 */
-  padding: 15px 20px;
-  background-color: #7896AC;
-  color: #fff;
-  font-size: 0.9em;
+.footer {
+    background-color: #7896AC;
+    color: #fff;
+    padding: 30px 0;
+    font-size: 0.9em;
+    text-align: center;
 }
 
-.footer-social a {
-  margin-left: 15px;
+.footer .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 15px;
 }
 
-.footer-social img {
-  width: 24px;
-  height: 24px;
+.footer-primary {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.footer-primary p {
+    margin: 0;
+    white-space: nowrap;
+}
+
+.footer-social-icons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+
+.footer-social-icons img {
+    width: 30px;
+    height: auto;
+    vertical-align: middle;
+}
+
+.footer-links-text {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.footer-links-text a {
+    color: #542D13;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.footer-links-text a:hover {
+    color: #FEE985;
+}
+
+@media (min-width: 769px) {
+    /* 電腦版：導覽連結清單 (ul) 應該是水平排列的 */
+    .nav-links ul {
+        display: flex;
+    }
+
+    /* 電腦版：導覽連結容器預設顯示 */
+    .nav-links {
+        display: block; 
+    }
+
+    /* 電腦版：滑鼠懸停在服務項目時顯示下拉選單 */
+    /* 這條規則的特異性 (nav-links li:hover > .dropdown-menu) 高於 .nav-links li .dropdown-menu */
+    /* 確保滑鼠懸停時能正確顯示 */
+    .nav-links li:hover > .dropdown-menu {
+        display: block; 
+    }
+}
+
+
+@media (max-width: 768px) {
+    /* 手機版：主導覽連結（nav-links）預設隱藏 */
+    .nav-links {
+        display: none; /* 手機版導覽列預設隱藏，由 JS 控制顯示 */
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 60px; /* 調整為 Navbar 的高度 */
+        left: 0;
+        background-color: #6C849B;
+        padding: 10px 0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        z-index: 999;
+    }
+
+    /* 手機版：nav-links ul 應該是垂直排列 */
+    .nav-links ul { 
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        padding-left: 0;
+    }
+
+    /* 手機版：漢堡選單被點擊時，導覽連結顯示 */
+    .nav-links.active {
+        display: flex; /* 當漢堡選單開啟時顯示 */
+    }
+    
+    .nav-links li {
+        margin: 10px 0;
+        position: relative; /* 保持相對定位，以便下拉選單在其內部 */
+    }
+
+    /* --- 關鍵修正：確保手機版下拉選單能顯示 --- */
+    /* 提升手機版 .dropdown-menu 的特異性，確保它能覆蓋預設的 display: none */
+    /* 這裡使用一個非常具體的選擇器，結合了父元素和 active 狀態 */
+    .nav-links.active li.active > .dropdown-menu { /* <-- 這裡修改了選擇器 */
+        display: flex; /* 手機版展開時顯示為 flex 佈局 */
+        flex-direction: column;
+        position: static; /* 手機版不使用絕對定位，使其在流中 */
+        width: 100%; /* 手機版下拉選單寬度佔滿 */
+        box-shadow: none; /* 手機版移除陰影 */
+        border-top: 1px solid rgba(255, 255, 255, 0.2); /* 增加頂部邊線 */
+        border-radius: 0; /* 手機版不需要圓角 */
+    }
+    /* --- 關鍵修正結束 --- */
+
+    /* 手機版：確保在手機尺寸下，滑鼠懸停不會觸發下拉選單 */
+    .nav-links li:hover > .dropdown-menu {
+        display: none;
+    }
+
+    /* 手機版：調整下拉選單內連結的樣式 */
+    .dropdown-menu a {
+        padding: 8px 16px;
+        font-size: 0.9em;
+        background-color: transparent;
+    }
+
+    /* 手機版：漢堡選單顯示 */
+    .hamburger {
+        display: block;
+        margin-left: auto;
+        align-self: center;
+    }
+
+    /* 其他響應式調整 */
+    .container.main-content {
+        width: 95%;
+    }
+    .product-list {
+        grid-template-columns: 1fr;
+    }
+    .product-detail-container {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .product-detail-container img {
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .product-info {
+    min-width: auto;
+  }
+
+  .quantity-and-button {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #addToCart {
+    width: 100%;
+  }
+}
+.product-gallery {
+    width: 100%;
+    max-width: 500px;
+}
+
+.main-image {
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+}
+
+.thumbnail-list {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.thumbnail:hover {
+    border-color: #666;
 }
