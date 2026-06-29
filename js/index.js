@@ -75,71 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // ✅ 點擊搜尋 icon 顯示搜尋欄
-    searchToggle.addEventListener('click', () => {
-        searchContainer.classList.toggle('hidden');
-        suggestionList.classList.add('hidden');
-
-        if (!searchContainer.classList.contains('hidden')) {
-            searchInput.focus();
-        } else {
-            searchInput.value = "";
-        }
-    });
-
-    // ✅ 即時搜尋功能
-    searchInput.addEventListener('input', () => {
-        const keyword = searchInput.value.trim().toLowerCase();
-        suggestionList.innerHTML = "";
-
-        if (keyword === "") {
-            suggestionList.classList.add('hidden');
-            return;
-        }
-
-        const matches = window.allProductsData.filter(item =>
-            item.name.toLowerCase().includes(keyword)
-        );
-
-        if (matches.length > 0) {
-            matches.forEach(item => {
-                const li = document.createElement('li');
-                li.textContent = item.name;
-                li.addEventListener('click', () => {
-                    searchInput.value = item.name;
-                    suggestionList.classList.add('hidden');
-                    renderSearchResults(item.name);
-                });
-                suggestionList.appendChild(li);
-            });
-            suggestionList.classList.remove('hidden');
-        } else {
-            suggestionList.classList.add('hidden');
-        }
-    });
-
-    // ✅ Enter 鍵或按搜尋按鈕確認搜尋
-    searchInput.addEventListener('keydown', (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            const keyword = searchInput.value.trim();
-            if (keyword !== "") {
-                suggestionList.classList.add('hidden');
-                renderSearchResults(keyword);
-            }
-        }
-    });
-
-    if (searchConfirm) {
-        searchConfirm.addEventListener('click', () => {
-            const keyword = searchInput.value.trim();
-            if (keyword !== "") {
-                suggestionList.classList.add('hidden');
-                renderSearchResults(keyword);
-            }
-        });
-    }
-
+  
     // ✅ 渲染首頁商品（ID 1~3）
     function renderInitialProducts() {
         const productContainer = document.getElementById('productList');
@@ -161,27 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    // ✅ 搜尋結果渲染
-    function renderSearchResults(keyword) {
-        const results = window.allProductsData.filter(item =>
-            item.name.toLowerCase().includes(keyword.toLowerCase())
-        );
-
-        const productContainer = document.getElementById('productList');
-        const title = document.getElementById('productSectionTitle');
-        if (!productContainer || !title) return;
-
-        title.textContent = `搜尋結果：「${keyword}」`;
-
-        if (results.length > 0) {
-            productContainer.innerHTML = results.map(generateProductHTML).join('');
-        } else {
-            productContainer.innerHTML = `<p class="no-products">暫無商品</p>`;
-        }
-
-        attachAddToCartEvents();
-    }
-
+   
 
     // ✅ 單一商品卡片 HTML
     function generateProductHTML(product) {

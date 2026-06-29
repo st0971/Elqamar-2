@@ -2,7 +2,7 @@
 
 // 將 allProductsData 賦值給 window 物件，使其成為全域可用的變數
 window.allProductsData = [
-    // 來自 indexData 的商品 (預購商品)
+    // 首頁
     {
         id: 1,
         name: '表情集',
@@ -16,13 +16,13 @@ window.allProductsData = [
         price: 9999,
         img: 'images/大頭.jpg',        
     },
-    // {
-    //     id: 3,
-    //     name: '家庭教師晨間準備',
-    //     price: 1800,
-    //     img: 'images/家教晨起掛件.jpg',
-    //     description: '選款：可\n商品：馬口鐵徽章\n出品方：1010(日網)\n材質：壓克力/鐵\n尺寸：約H68×W68×D3mm\n隱藏款：無'
-    // },
+   {
+        id: 3,
+        name: '全身',
+        price: 9999,
+        img: 'images/全身.jpg',
+        description: '<p>項目包含：<br>表情如無指定將隨機繪製</br><img src="images/排版.jpg"><img src="images/排版-2.jpg">',
+    },
     // ... 可以根據需要添加更多預購商品
 
     // 半身
@@ -42,7 +42,7 @@ window.allProductsData = [
     //     stock: 10
     // },
     // ... 可以根據需要添加更多分類商品
-    //全身
+    // 全身
     {
         id: 201,
         name: '表情集',
@@ -57,7 +57,7 @@ window.allProductsData = [
         img: 'images/全身.jpg',
         description: '<p>項目包含：<br>表情如無指定將隨機繪製</br><img src="images/排版.jpg"><img src="images/排版-2.jpg">',
     },
-    // 來自 現貨 的商品 
+    // 例圖 
     {
         id: 901, // 使用不同的 ID 範圍，避免與 indexData 衝突
         // name: '名偵探柯南消失的手錶',
